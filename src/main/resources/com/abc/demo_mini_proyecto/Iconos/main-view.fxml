@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="rootBorderPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <VBox style="-fx-background-color: #1a2b40;" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Gestor de figuras geométricas" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+        </VBox>
+    </top>
+    <center>
+        <HBox alignment="TOP_LEFT" BorderPane.alignment="CENTER">
+            <children>
+                <VBox fx:id="addFigurePanel" prefWidth="400.0" HBox.hgrow="NEVER" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 0 1px 0 0;">
+                </VBox>
+
+                <VBox HBox.hgrow="ALWAYS" style="-fx-background-color: #ffffff;">
+                    <children>
+                        <Label text="Mis figuras">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Label text="Lista de figuras (Aún no implementado)" />
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </HBox>
+    </center>
+</BorderPane>
