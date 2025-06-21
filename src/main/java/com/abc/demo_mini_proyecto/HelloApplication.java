@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // Cargar la vista principal (main-view.fxml)
+
         URL mainViewLocation = getClass().getResource("/com/abc/demo_mini_proyecto/Iconos/main-view.fxml");
 
         if (mainViewLocation == null) {

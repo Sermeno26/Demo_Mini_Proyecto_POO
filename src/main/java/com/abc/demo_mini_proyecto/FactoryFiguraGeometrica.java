@@ -6,7 +6,7 @@ public class FactoryFiguraGeometrica {
         switch (tipo) {
             case "Círculo":
 
-                if (dimensiones.length == 1) {
+                if (dimensiones.length < 1) {
                     throw new IllegalArgumentException("Se requiere el radio para un Círculo.");
                 }
                 return new Circulo(color, nombre, dimensiones[0]);

@@ -2,16 +2,16 @@ package com.abc.demo_mini_proyecto.controllers;
 
 import com.abc.demo_mini_proyecto.FactoryFiguraGeometrica;
 import com.abc.demo_mini_proyecto.FiguraGeometrica;
+import com.abc.demo_mini_proyecto.dao.FiguraDAO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ColorPicker; // Importa ColorPicker
 import javafx.scene.paint.Color;
 
 public class FigureFormController {
@@ -21,7 +21,7 @@ public class FigureFormController {
     @FXML
     private TextField txtNombre;
     @FXML
-    private ColorPicker colorPicker; // Cambiado de ComboBox a ColorPicker
+    private ColorPicker colorPicker;
     @FXML
     private VBox vboxCirculoCampos;
     @FXML
@@ -35,11 +35,13 @@ public class FigureFormController {
     @FXML
     private Button btnAgregarFigura;
 
+    private FiguraDAO figuraDAO;
 
     @FXML
     public void initialize() {
+        figuraDAO = new FiguraDAO();
         cmbTipoFigura.getSelectionModel().selectFirst();
-        colorPicker.setValue(Color.BLACK); // Establece un color inicial, por ejemplo, negro.
+        colorPicker.setValue(Color.WHITE);
 
         cmbTipoFigura.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -57,14 +59,16 @@ public class FigureFormController {
                 }
             }
         });
+
+        cmbTipoFigura.getSelectionModel().selectFirst();
     }
 
     @FXML
     private void agregarFigura() {
         String tipo = cmbTipoFigura.getValue();
         String nombre = txtNombre.getText();
-        String colorHex = colorPicker.getValue().toString();
-        String color = colorHex;
+        String colorHexWithAlpha = colorPicker.getValue().toString();
+        String color = "#" + colorHexWithAlpha.substring(2, 8);
 
         if (nombre == null || nombre.trim().isEmpty()) {
             mostrarAlerta("Error de Validación", "El nombre de la figura no puede estar vacío.", Alert.AlertType.ERROR);
@@ -84,16 +88,22 @@ public class FigureFormController {
             }
 
             if (nuevaFigura != null) {
-                System.out.println("Figura agregada: " + nuevaFigura.getNombre() +
-                        ", Tipo: " + nuevaFigura.getClass().getSimpleName() +
-                        ", Color: " + nuevaFigura.getColor() +
-                        ", Área: " + String.format("%.2f", nuevaFigura.calcularArea()));
-                mostrarAlerta("Éxito", "Figura '" + nuevaFigura.getNombre() + "' agregada correctamente.", Alert.AlertType.INFORMATION);
-                limpiarCampos();
+                boolean guardadoExitoso = figuraDAO.guardarFigura(nuevaFigura);
+
+                if (guardadoExitoso) {
+                    System.out.println("Figura agregada: " + nuevaFigura.getNombre() +
+                            ", Tipo: " + nuevaFigura.getClass().getSimpleName() +
+                            ", Color: " + nuevaFigura.getColor() +
+                            ", Área: " + String.format("%.2f", nuevaFigura.calcularArea()));
+                    mostrarAlerta("Éxito", "Figura '" + nuevaFigura.getNombre() + "' agregada correctamente a la base de datos.", Alert.AlertType.INFORMATION);
+                    limpiarCampos();
+                } else {
+                    mostrarAlerta("Error de Base de Datos", "No se pudo guardar la figura en la base de datos. Revisa la consola para más detalles.", Alert.AlertType.ERROR);
+                }
             }
 
         } catch (NumberFormatException e) {
-            mostrarAlerta("Error de Entrada", "Por favor, ingrese valores numéricos válidos para las dimensiones.", Alert.AlertType.ERROR);
+            mostrarAlerta("Error de Entrada", "Por favor, ingrese valores numéricos válidos para las dimensiones (radio, base, altura).", Alert.AlertType.ERROR);
         } catch (IllegalArgumentException e) {
             mostrarAlerta("Error de Creación", e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -105,7 +115,7 @@ public class FigureFormController {
         txtBase.clear();
         txtAltura.clear();
         cmbTipoFigura.getSelectionModel().selectFirst();
-        colorPicker.setValue(Color.BLACK); // Restablece el color a un valor predeterminado
+        colorPicker.setValue(Color.BLACK);
     }
 
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
