@@ -1,11 +1,7 @@
 package com.abc.demo_mini_proyecto.controllers;
 
-import com.abc.demo_mini_proyecto.Circulo;
 import com.abc.demo_mini_proyecto.FactoryFiguraGeometrica;
-import com.abc.demo_mini_proyecto.Rectangulo;
 import com.abc.demo_mini_proyecto.FiguraGeometrica;
-import com.abc.demo_mini_proyecto.FactoryFiguraGeometrica;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -15,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker; // Importa ColorPicker
+import javafx.scene.paint.Color;
 
 public class FigureFormController {
 
@@ -23,7 +21,7 @@ public class FigureFormController {
     @FXML
     private TextField txtNombre;
     @FXML
-    private ComboBox<String> cmbColor;
+    private ColorPicker colorPicker; // Cambiado de ComboBox a ColorPicker
     @FXML
     private VBox vboxCirculoCampos;
     @FXML
@@ -41,7 +39,7 @@ public class FigureFormController {
     @FXML
     public void initialize() {
         cmbTipoFigura.getSelectionModel().selectFirst();
-        cmbColor.getSelectionModel().selectFirst();
+        colorPicker.setValue(Color.BLACK); // Establece un color inicial, por ejemplo, negro.
 
         cmbTipoFigura.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -65,7 +63,8 @@ public class FigureFormController {
     private void agregarFigura() {
         String tipo = cmbTipoFigura.getValue();
         String nombre = txtNombre.getText();
-        String color = cmbColor.getValue();
+        String colorHex = colorPicker.getValue().toString();
+        String color = colorHex;
 
         if (nombre == null || nombre.trim().isEmpty()) {
             mostrarAlerta("Error de Validación", "El nombre de la figura no puede estar vacío.", Alert.AlertType.ERROR);
@@ -77,12 +76,10 @@ public class FigureFormController {
 
             if ("Círculo".equals(tipo)) {
                 double radio = Double.parseDouble(txtRadio.getText());
-
                 nuevaFigura = FactoryFiguraGeometrica.crearFigura(tipo, color, nombre, radio);
             } else if ("Rectángulo".equals(tipo)) {
                 double base = Double.parseDouble(txtBase.getText());
                 double altura = Double.parseDouble(txtAltura.getText());
-
                 nuevaFigura = FactoryFiguraGeometrica.crearFigura(tipo, color, nombre, base, altura);
             }
 
@@ -91,7 +88,6 @@ public class FigureFormController {
                         ", Tipo: " + nuevaFigura.getClass().getSimpleName() +
                         ", Color: " + nuevaFigura.getColor() +
                         ", Área: " + String.format("%.2f", nuevaFigura.calcularArea()));
-
                 mostrarAlerta("Éxito", "Figura '" + nuevaFigura.getNombre() + "' agregada correctamente.", Alert.AlertType.INFORMATION);
                 limpiarCampos();
             }
@@ -109,7 +105,7 @@ public class FigureFormController {
         txtBase.clear();
         txtAltura.clear();
         cmbTipoFigura.getSelectionModel().selectFirst();
-        cmbColor.getSelectionModel().selectFirst();
+        colorPicker.setValue(Color.BLACK); // Restablece el color a un valor predeterminado
     }
 
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {

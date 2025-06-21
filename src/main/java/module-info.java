@@ -1,6 +1,7 @@
 module com.abc.demo_mini_proyecto {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     // Abre todos los paquetes necesarios a javafx.fxml
