@@ -14,6 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 public class FigureFormController {
 
     @FXML
@@ -38,14 +44,31 @@ public class FigureFormController {
     private FiguraDAO figuraDAO;
 
     @FXML
-    public void initialize() {
-        figuraDAO = new FiguraDAO();
-        cmbTipoFigura.getSelectionModel().selectFirst();
-        colorPicker.setValue(Color.WHITE);
+    private TableView<FiguraGeometrica> tablaFiguras;
+    @FXML
+    private TableColumn<FiguraGeometrica, String> colNombre;
+    @FXML
+    private TableColumn<FiguraGeometrica, String> colTipo;
+    @FXML
+    private TableColumn<FiguraGeometrica, String> colColor;
+    @FXML
+    private TableColumn<FiguraGeometrica, String> colArea;
 
-        cmbTipoFigura.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+    private ObservableList<FiguraGeometrica> figurasObservableList = FXCollections.observableArrayList();
+
+
+    @FXML
+    public void initialize() {
+        try {
+            System.out.println("Inicializando vista...");
+
+            figuraDAO = new FiguraDAO();
+
+            cmbTipoFigura.getSelectionModel().selectFirst();
+            colorPicker.setValue(Color.WHITE);
+
+            // Inicializa visibilidad condicional
+            cmbTipoFigura.valueProperty().addListener((observable, oldValue, newValue) -> {
                 if ("Círculo".equals(newValue)) {
                     vboxCirculoCampos.setVisible(true);
                     vboxCirculoCampos.setManaged(true);
@@ -57,10 +80,22 @@ public class FigureFormController {
                     vboxRectanguloCampos.setVisible(true);
                     vboxRectanguloCampos.setManaged(true);
                 }
-            }
-        });
+            });
 
-        cmbTipoFigura.getSelectionModel().selectFirst();
+            // Inicializa tabla
+            tablaFiguras.setItems(figurasObservableList);
+
+            colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            colTipo.setCellValueFactory(cellData -> javafx.beans.binding.Bindings.createStringBinding(() ->
+                    cellData.getValue().getClass().getSimpleName()));
+            colColor.setCellValueFactory(new PropertyValueFactory<>("color"));
+            colArea.setCellValueFactory(cellData -> javafx.beans.binding.Bindings.createStringBinding(() ->
+                    String.format("%.2f", cellData.getValue().calcularArea())));
+
+        } catch (Exception e) {
+            System.out.println("Error al inicializar:");
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -96,6 +131,8 @@ public class FigureFormController {
                             ", Color: " + nuevaFigura.getColor() +
                             ", Área: " + String.format("%.2f", nuevaFigura.calcularArea()));
                     mostrarAlerta("Éxito", "Figura '" + nuevaFigura.getNombre() + "' agregada correctamente a la base de datos.", Alert.AlertType.INFORMATION);
+                    figurasObservableList.add(nuevaFigura);
+
                     limpiarCampos();
                 } else {
                     mostrarAlerta("Error de Base de Datos", "No se pudo guardar la figura en la base de datos. Revisa la consola para más detalles.", Alert.AlertType.ERROR);
@@ -125,4 +162,4 @@ public class FigureFormController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-}
+    }
