@@ -12,5 +12,9 @@ module com.abc.demo_mini_proyecto {
     exports com.abc.demo_mini_proyecto;
     exports com.abc.demo_mini_proyecto.controllers;
     opens com.abc.demo_mini_proyecto.controllers to javafx.fxml;
+    exports com.abc.demo_mini_proyecto.Modelos;
+    opens com.abc.demo_mini_proyecto.Modelos to javafx.fxml;
+    exports com.abc.demo_mini_proyecto.Util;
+    opens com.abc.demo_mini_proyecto.Util to javafx.fxml;
 
 }

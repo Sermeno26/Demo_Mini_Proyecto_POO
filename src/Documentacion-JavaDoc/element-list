@@ -1,0 +1,6 @@
+module:com.abc.demo_mini_proyecto
+com.abc.demo_mini_proyecto
+com.abc.demo_mini_proyecto.controllers
+com.abc.demo_mini_proyecto.dao
+com.abc.demo_mini_proyecto.Modelos
+com.abc.demo_mini_proyecto.Util

@@ -9,7 +9,25 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Clase principal que lanza la aplicacion JavaFX para gestionar figuras geometricas.
+ * Carga la vista principal desde el archivo FXML
+ * Esta clase extiende {@link Application} y define el punto de entrada grafico.
+ *
+ * @author Diego Otoniel Mendez Cabrera #00010023
+ * @author Daniel Alexander Sermeno Chinchilla #00030022
+ * @author Rene Eduardo Gonzalez Iraheta #00128624
+ * @version 2.0
+ */
 public class HelloApplication extends Application {
+
+    /**
+     * Metodo principal de arranque de la aplicación JavaFX.
+     * Carga el archivo FXML y configura la ventana principal.
+     *
+     * @param primaryStage La ventana primaria del scene builder
+     * @throws IOException Si el archivo FXML no se puede cargar.
+     */
 
     @Override
     public void start(Stage primaryStage) throws IOException {

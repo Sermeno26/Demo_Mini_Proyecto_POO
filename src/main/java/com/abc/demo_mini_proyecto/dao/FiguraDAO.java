@@ -1,9 +1,9 @@
 package com.abc.demo_mini_proyecto.dao;
 
-import com.abc.demo_mini_proyecto.Circulo;
-import com.abc.demo_mini_proyecto.DBConnection;
-import com.abc.demo_mini_proyecto.FiguraGeometrica;
-import com.abc.demo_mini_proyecto.Rectangulo;
+import com.abc.demo_mini_proyecto.Modelos.Circulo;
+import com.abc.demo_mini_proyecto.Util.DBConnection;
+import com.abc.demo_mini_proyecto.Modelos.FiguraGeometrica;
+import com.abc.demo_mini_proyecto.Modelos.Rectangulo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +13,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase encargada de realizar operaciones de acceso a datos (DAO) para figuras geometricas.
+ * Permite guardar figuras como Circulo y Rectangulo en la base de datos y recuperarlas.
+ * Esta clase usa una conexion JDBC para insertar y consultar informacion desde tablas
+ *
+ * @author Diego Otoniel Mendez Cabrera #00010023
+ * @author Daniel Alexander Sermeno Chinchilla #00030022
+ * @author Rene Eduardo Gonzalez Iraheta #00128624
+ * @version 2.0
+ */
+
 public class FiguraDAO {
+    /**
+     * Guarda una figura geometrica en la base de datos.
+     * Se inserta primero en la tabla figuras,
+     * y luego en la tabla correspondiente (circulos o rectangulos).
+     *
+     * @param figura Figura geometrica a guardar.
+     * @return true si se guardo correctamente, false si hubo un error.
+     */
 
     public boolean guardarFigura(FiguraGeometrica figura) {
         Connection conn = null;
@@ -98,8 +117,9 @@ public class FiguraDAO {
     }
 
     /**
-     * Obtiene todas las figuras geométricas de la base de datos.
-     * @return Una lista de objetos FiguraGeometrica, que pueden ser Circulo o Rectangulo.
+     * Muestra todas las figuras geometricas almacenadas en la base de datos.
+     *
+     * @return Una lista de figuras geometricas, que pueden ser instancias de Círculo o Rectangulo.
      */
     public List<FiguraGeometrica> getAllFiguras() {
         List<FiguraGeometrica> figuras = new ArrayList<>();

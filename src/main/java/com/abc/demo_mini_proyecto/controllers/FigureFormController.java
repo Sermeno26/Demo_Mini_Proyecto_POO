@@ -1,10 +1,8 @@
 package com.abc.demo_mini_proyecto.controllers;
 
-import com.abc.demo_mini_proyecto.FactoryFiguraGeometrica;
-import com.abc.demo_mini_proyecto.FiguraGeometrica;
+import com.abc.demo_mini_proyecto.Modelos.FactoryFiguraGeometrica;
+import com.abc.demo_mini_proyecto.Modelos.FiguraGeometrica;
 import com.abc.demo_mini_proyecto.dao.FiguraDAO;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -19,6 +17,17 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+/**
+ * Controlador de la vista del formulario de figuras geometricas.
+ * Administra la logica de creacion de figuras (Circulo o Rectangulo),
+ * la insercion de datos y la visualizacion en una tabla.
+ *
+ * @author Diego Otoniel Mendez Cabrera #00010023
+ * @author Daniel Alexander Sermeno Chinchilla #00030022
+ * @author Rene Eduardo Gonzalez Iraheta #00128624
+ * @version 2.0
+ */
 
 public class FigureFormController {
 
@@ -56,6 +65,11 @@ public class FigureFormController {
 
     private ObservableList<FiguraGeometrica> figurasObservableList = FXCollections.observableArrayList();
 
+    /**
+     * Es un metodo que se ejecuta automáticamente al cargar la vista.
+     * Inicializa valores predeterminados, configura el comportamiento del pedido de datos
+     * de las figuras
+     */
 
     @FXML
     public void initialize() {
@@ -67,7 +81,7 @@ public class FigureFormController {
             cmbTipoFigura.getSelectionModel().selectFirst();
             colorPicker.setValue(Color.WHITE);
 
-            // Inicializa visibilidad condicional
+
             cmbTipoFigura.valueProperty().addListener((observable, oldValue, newValue) -> {
                 if ("Círculo".equals(newValue)) {
                     vboxCirculoCampos.setVisible(true);
@@ -98,6 +112,10 @@ public class FigureFormController {
         }
     }
 
+    /**
+     * Agrega una nueva figura geometrica segun lo que ingrese el usuario
+     * Verifica que los datos sean validos, guarda la figura usando DAO(Data acces object).
+     */
     @FXML
     private void agregarFigura() {
         String tipo = cmbTipoFigura.getValue();
@@ -129,7 +147,7 @@ public class FigureFormController {
                     System.out.println("Figura agregada: " + nuevaFigura.getNombre() +
                             ", Tipo: " + nuevaFigura.getClass().getSimpleName() +
                             ", Color: " + nuevaFigura.getColor() +
-                            ", Área: " + String.format("%.2f", nuevaFigura.calcularArea()));
+                            ", Area: " + String.format("%.2f", nuevaFigura.calcularArea()));
                     mostrarAlerta("Éxito", "Figura '" + nuevaFigura.getNombre() + "' agregada correctamente a la base de datos.", Alert.AlertType.INFORMATION);
                     figurasObservableList.add(nuevaFigura);
 
@@ -146,6 +164,10 @@ public class FigureFormController {
         }
     }
 
+    /**
+     * Limpia los campos de la interfaz grafica.
+     */
+
     private void limpiarCampos() {
         txtNombre.clear();
         txtRadio.clear();
@@ -155,6 +177,14 @@ public class FigureFormController {
         colorPicker.setValue(Color.BLACK);
     }
 
+    /**
+     * Muestra una alerta al usuario con un breve mensaje
+     *
+     * @param titulo  Titulo de la alerta
+     * @param mensaje Contenido del mensaje
+     * @param tipo    Tipo de alerta
+     */
+
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -162,4 +192,4 @@ public class FigureFormController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-    }
+}
