@@ -121,7 +121,7 @@ public class FiguraDAO {
      *
      * @return Una lista de figuras geometricas, que pueden ser instancias de Círculo o Rectangulo.
      */
-    public List<FiguraGeometrica> getAllFiguras() {
+    public List<FiguraGeometrica> obtenerTodasFiguras() {
         List<FiguraGeometrica> figuras = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;

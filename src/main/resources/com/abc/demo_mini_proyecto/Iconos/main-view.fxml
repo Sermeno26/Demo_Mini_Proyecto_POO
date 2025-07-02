@@ -1,48 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.collections.FXCollections?>
 
-<BorderPane fx:id="rootBorderPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.abc.demo_mini_proyecto.controllers.MainViewController">
+<?import java.lang.String?>
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.abc.demo_mini_proyecto.controllers.MainViewController"
+            prefWidth="900" prefHeight="600">
+
     <top>
-        <VBox style="-fx-background-color: #1a2b40;" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-            <children>
-                <Label text="Gestor de figuras geométricas" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
-                    </font>
-                </Label>
-            </children>
+        <VBox style="-fx-background-color: #1a2b40;" alignment="CENTER_LEFT">
+            <Label text="Gestor de figuras geométricas" textFill="WHITE">
+                <font><Font name="System Bold" size="20.0"/></font>
+            </Label>
             <padding>
-                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                <Insets top="10.0" right="20.0" bottom="10.0" left="20.0"/>
             </padding>
         </VBox>
     </top>
+
     <center>
-        <HBox alignment="TOP_LEFT" BorderPane.alignment="CENTER">
-            <VBox fx:id="addFigurePanel" prefWidth="400.0" HBox.hgrow="NEVER" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 0 1px 0 0;">
+        <HBox>
+            <!-- Panel izquierdo: Formulario -->
+            <VBox style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 0 1px 0 0"
+                  prefWidth="400" spacing="10">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+
+                <Label text="Agregar figura">
+                    <font><Font name="System Bold" size="16.0"/></font>
+                    <VBox.margin>
+                        <Insets bottom="10.0"/>
+                    </VBox.margin>
+                </Label>
+
+                <Label text="Tipo de figura"/>
+                <ComboBox fx:id="cmbTipoFigura" prefWidth="200.0">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Círculo"/>
+                            <String fx:value="Rectángulo"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <Label text="Nombre"/>
+                <TextField fx:id="txtNombre" promptText="Nombre de la figura"/>
+
+                <Label text="Color"/>
+                <ColorPicker fx:id="colorPicker" prefWidth="200.0"/>
+
+                <VBox fx:id="vboxCirculoCampos" spacing="10.0">
+                    <Label text="Radio"/>
+                    <TextField fx:id="txtRadio" promptText="Radio del círculo"/>
+                </VBox>
+
+                <VBox fx:id="vboxRectanguloCampos" spacing="10.0" visible="false">
+                    <Label text="Base"/>
+                    <TextField fx:id="txtBase" promptText="Base del rectángulo"/>
+                    <Label text="Altura"/>
+                    <TextField fx:id="txtAltura" promptText="Altura del rectángulo"/>
+                </VBox>
+
+                <Button fx:id="btnAgregarFigura" text="Agregar figura" onAction="#agregarFigura"/>
             </VBox>
 
-            <VBox HBox.hgrow="ALWAYS" style="-fx-background-color: #ffffff;">
-                <children>
-                    <Label text="Mis figuras">
-                        <font>
-                            <Font name="System Bold" size="16.0" />
-                        </font>
-                        <VBox.margin>
-                            <Insets bottom="10.0" />
-                        </VBox.margin>
-                    </Label>
-                    <Label text="Lista de figuras (Aún no implementado)" />
-                </children>
+            <!-- Panel derecho: Tabla de figuras -->
+            <VBox style="-fx-background-color: white" HBox.hgrow="ALWAYS" spacing="10.0">
                 <padding>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
                 </padding>
+
+                <Label text="Mis figuras">
+                    <font><Font name="System Bold" size="16.0"/></font>
+                    <VBox.margin>
+                        <Insets bottom="10.0"/>
+                    </VBox.margin>
+                </Label>
+
+                <TableView fx:id="tablaFiguras" prefHeight="500.0">
+                    <columns>
+                        <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150.0"/>
+                        <TableColumn fx:id="colTipo" text="Tipo" prefWidth="100.0"/>
+                        <TableColumn fx:id="colColor" text="Color" prefWidth="100.0"/>
+                        <TableColumn fx:id="colDimensiones" text="Dimensiones" prefWidth="200.0"/>
+                        <TableColumn fx:id="colArea" text="Área" prefWidth="100.0"/>
+                    </columns>
+                </TableView>
             </VBox>
         </HBox>
     </center>

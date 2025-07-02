@@ -18,7 +18,7 @@ public class DBConnection {
 
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=figuras_db;encrypt=false;trustServerCertificate=true;";
     private static final String USER = "sa";
-    private static final String PASSWORD = "Dieguito2004_";
+    private static final String PASSWORD = "SERmeno260403";
 
     private DBConnection() {
     }

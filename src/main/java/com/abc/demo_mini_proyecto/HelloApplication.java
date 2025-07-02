@@ -1,5 +1,6 @@
 package com.abc.demo_mini_proyecto;
 
+import com.abc.demo_mini_proyecto.Modelos.IMedible;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
